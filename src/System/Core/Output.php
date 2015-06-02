@@ -1,4 +1,4 @@
-<?php
+<?php namespace System\Core;
 /**
  * CodeIgniter
  *
@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/output.html
  */
-class CI_Output {
+class Output {
 
 	/**
 	 * Final output string
@@ -166,7 +166,7 @@ class CI_Output {
 	 * Sets the output string.
 	 *
 	 * @param	string	$output	Output data
-	 * @return	CI_Output
+	 * @return	Output
 	 */
 	public function set_output($output)
 	{
@@ -182,7 +182,7 @@ class CI_Output {
 	 * Appends data onto the output string.
 	 *
 	 * @param	string	$output	Data to append
-	 * @return	CI_Output
+	 * @return	Output
 	 */
 	public function append_output($output)
 	{
@@ -202,7 +202,7 @@ class CI_Output {
 	 *
 	 * @param	string	$header		Header
 	 * @param	bool	$replace	Whether to replace the old header value, if already set
-	 * @return	CI_Output
+	 * @return	Output
 	 */
 	public function set_header($header, $replace = TRUE)
 	{
@@ -226,7 +226,7 @@ class CI_Output {
 	 *
 	 * @param	string	$mime_type	Extension of the file we're outputting
 	 * @param	string	$charset	Character set (default: NULL)
-	 * @return	CI_Output
+	 * @return	Output
 	 */
 	public function set_content_type($mime_type, $charset = NULL)
 	{
@@ -323,7 +323,7 @@ class CI_Output {
 	 *
 	 * @param	int	$code	Status code (default: 200)
 	 * @param	string	$text	Optional message
-	 * @return	CI_Output
+	 * @return	Output
 	 */
 	public function set_status_header($code = 200, $text = '')
 	{
@@ -337,7 +337,7 @@ class CI_Output {
 	 * Enable/disable Profiler
 	 *
 	 * @param	bool	$val	TRUE to enable or FALSE to disable
-	 * @return	CI_Output
+	 * @return	Output
 	 */
 	public function enable_profiler($val = TRUE)
 	{
@@ -354,7 +354,7 @@ class CI_Output {
 	 * Profiler section display.
 	 *
 	 * @param	array	$sections	Profiler sections
-	 * @return	CI_Output
+	 * @return	Output
 	 */
 	public function set_profiler_sections($sections)
 	{
@@ -378,7 +378,7 @@ class CI_Output {
 	 * Set Cache
 	 *
 	 * @param	int	$time	Cache expiration time in seconds
-	 * @return	CI_Output
+	 * @return	Output
 	 */
 	public function cache($time)
 	{
@@ -398,22 +398,22 @@ class CI_Output {
 	 * Note: All "view" data is automatically put into $this->final_output
 	 *	 by controller class.
 	 *
-	 * @uses	CI_Output::$final_output
+	 * @uses	Output::$final_output
 	 * @param	string	$output	Output data override
 	 * @return	void
 	 */
 	public function _display($output = '')
 	{
-		// Note:  We use load_class() because we can't use $CI =& get_instance()
+		// Note:  We use load_class() because we can't use $CodeIgniter =& get_instance()
 		// since this function is sometimes called by the caching mechanism,
-		// which happens before the CI super object is available.
-		$BM =& load_class('Benchmark', 'core');
-		$CFG =& load_class('Config', 'core');
+		// which happens before the CodeIgniter super object is available.
+		$BM =& load_class('Benchmark', 'Core');
+		$CFG =& load_class('Config', 'Core');
 
 		// Grab the super object if we can.
-		if (class_exists('CI_Controller', FALSE))
+		if (class_exists('Controller', FALSE))
 		{
-			$CI =& get_instance();
+			$CodeIgniter =& get_instance();
 		}
 
 		// --------------------------------------------------------------------
@@ -428,8 +428,8 @@ class CI_Output {
 
 		// Do we need to write a cache file? Only if the controller does not have its
 		// own _output() method and we are not dealing with a cache file, which we
-		// can determine by the existence of the $CI object above
-		if ($this->cache_expiration > 0 && isset($CI) && ! method_exists($CI, '_output'))
+		// can determine by the existence of the $CodeIgniter object above
+		if ($this->cache_expiration > 0 && isset($CodeIgniter) && ! method_exists($CodeIgniter, '_output'))
 		{
 			$this->_write_cache($output);
 		}
@@ -450,7 +450,7 @@ class CI_Output {
 		// --------------------------------------------------------------------
 
 		// Is compression requested?
-		if (isset($CI) // This means that we're not serving a cache file, if we were, it would already be compressed
+		if (isset($CodeIgniter) // This means that we're not serving a cache file, if we were, it would already be compressed
 			&& $this->_compress_output === TRUE
 			&& isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE)
 		{
@@ -470,10 +470,10 @@ class CI_Output {
 
 		// --------------------------------------------------------------------
 
-		// Does the $CI object exist?
+		// Does the $CodeIgniter object exist?
 		// If not we know we are dealing with a cache file so we'll
 		// simply echo out the data and exit.
-		if ( ! isset($CI))
+		if ( ! isset($CodeIgniter))
 		{
 			if ($this->_compress_output === TRUE)
 			{
@@ -502,15 +502,15 @@ class CI_Output {
 		// If so, load the Profile class and run it.
 		if ($this->enable_profiler === TRUE)
 		{
-			$CI->load->library('profiler');
+			$CodeIgniter->load->library('profiler');
 			if ( ! empty($this->_profiler_sections))
 			{
-				$CI->profiler->set_sections($this->_profiler_sections);
+				$CodeIgniter->profiler->set_sections($this->_profiler_sections);
 			}
 
 			// If the output data contains closing </body> and </html> tags
 			// we will remove them and add them back after we insert the profile data
-			$output = preg_replace('|</body>.*?</html>|is', '', $output, -1, $count).$CI->profiler->run();
+			$output = preg_replace('|</body>.*?</html>|is', '', $output, -1, $count).$CodeIgniter->profiler->run();
 			if ($count > 0)
 			{
 				$output .= '</body></html>';
@@ -519,9 +519,9 @@ class CI_Output {
 
 		// Does the controller contain a function named _output()?
 		// If so send the output there.  Otherwise, echo it.
-		if (method_exists($CI, '_output'))
+		if (method_exists($CodeIgniter, '_output'))
 		{
-			$CI->_output($output);
+			$CodeIgniter->_output($output);
 		}
 		else
 		{
@@ -542,8 +542,8 @@ class CI_Output {
 	 */
 	public function _write_cache($output)
 	{
-		$CI =& get_instance();
-		$path = $CI->config->item('cache_path');
+		$CodeIgniter =& get_instance();
+		$path = $CodeIgniter->config->item('cache_path');
 		$cache_path = ($path === '') ? ROOTPATH.'storage/cache/' : $path;
 
 		if ( ! is_dir($cache_path) OR ! is_really_writable($cache_path))
@@ -552,11 +552,11 @@ class CI_Output {
 			return;
 		}
 
-		$uri = $CI->config->item('base_url')
-			.$CI->config->item('index_page')
-			.$CI->uri->uri_string();
+		$uri = $CodeIgniter->config->item('base_url')
+			.$CodeIgniter->config->item('index_page')
+			.$CodeIgniter->uri->uri_string();
 
-		if ($CI->config->item('cache_query_string') && ! empty($_SERVER['QUERY_STRING']))
+		if ($CodeIgniter->config->item('cache_query_string') && ! empty($_SERVER['QUERY_STRING']))
 		{
 			$uri .= '?'.$_SERVER['QUERY_STRING'];
 		}
@@ -632,11 +632,11 @@ class CI_Output {
 	/**
 	 * Update/serve cached output
 	 *
-	 * @uses	CI_Config
-	 * @uses	CI_URI
+	 * @uses	Config
+	 * @uses	URI
 	 *
-	 * @param	object	&$CFG	CI_Config class instance
-	 * @param	object	&$URI	CI_URI class instance
+	 * @param	object	&$CFG	Config class instance
+	 * @param	object	&$URI	URI class instance
 	 * @return	bool	TRUE on success or FALSE on failure
 	 */
 	public function _display_cache(&$CFG, &$URI)
@@ -712,8 +712,8 @@ class CI_Output {
 	 */
 	public function delete_cache($uri = '')
 	{
-		$CI =& get_instance();
-		$cache_path = $CI->config->item('cache_path');
+		$CodeIgniter =& get_instance();
+		$cache_path = $CodeIgniter->config->item('cache_path');
 		if ($cache_path === '')
 		{
 			$cache_path = ROOTPATH.'storage/cache/';
@@ -727,15 +727,15 @@ class CI_Output {
 
 		if (empty($uri))
 		{
-			$uri = $CI->uri->uri_string();
+			$uri = $CodeIgniter->uri->uri_string();
 
-			if ($CI->config->item('cache_query_string') && ! empty($_SERVER['QUERY_STRING']))
+			if ($CodeIgniter->config->item('cache_query_string') && ! empty($_SERVER['QUERY_STRING']))
 			{
 				$uri .= '?'.$_SERVER['QUERY_STRING'];
 			}
 		}
 
-		$cache_path .= md5($CI->config->item('base_url').$CI->config->item('index_page').$uri);
+		$cache_path .= md5($CodeIgniter->config->item('base_url').$CodeIgniter->config->item('index_page').$uri);
 
 		if ( ! @unlink($cache_path))
 		{

@@ -1,4 +1,4 @@
-<?php
+<?php namespace System\Core;
 /**
  * CodeIgniter
  *
@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/input.html
  */
-class CI_Input {
+class Input {
 
 	/**
 	 * IP address of the current user
@@ -84,7 +84,7 @@ class CI_Input {
 	 *
 	 * @var	bool
 	 */
-	protected $_enable_xss = FALSE;
+	protected $_enable_xss = TRUE;
 
 	/**
 	 * Enable CSRF flag
@@ -94,7 +94,7 @@ class CI_Input {
 	 *
 	 * @var	bool
 	 */
-	protected $_enable_csrf = FALSE;
+	protected $_enable_csrf = TRUE;
 
 	/**
 	 * List of all HTTP request headers
@@ -117,7 +117,7 @@ class CI_Input {
 	 *
 	 * Parsed from php://input at runtime
 	 *
-	 * @see	CI_Input::input_stream()
+	 * @see	Input::input_stream()
 	 * @var	array
 	 */
 	protected $_input_stream;
@@ -142,12 +142,12 @@ class CI_Input {
 		$this->_enable_csrf		= (config_item('csrf_protection') === TRUE);
 		$this->_standardize_newlines	= (bool) config_item('standardize_newlines');
 
-		$this->security =& load_class('Security', 'core');
+		$this->security =& load_class('Security', 'Core');
 
 		// Do we need the UTF-8 class?
 		if (UTF8_ENABLED === TRUE)
 		{
-			$this->uni =& load_class('Utf8', 'core');
+			$this->uni =& load_class('Utf8', 'Core');
 		}
 
 		// Sanitize global arrays
@@ -621,7 +621,7 @@ class CI_Input {
 		if (is_array($_COOKIE) && count($_COOKIE) > 0)
 		{
 			// Also get rid of specially treated cookies that might be set by a server
-			// or silly application, that are of no use to a CI application anyway
+			// or silly application, that are of no use to a CodeIgniter application anyway
 			// but that when present will trip our 'Disallowed Key Characters' alarm
 			// http://www.ietf.org/rfc/rfc2109.txt
 			// note that the key names below are single quoted strings, and are not PHP variables

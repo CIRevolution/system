@@ -1,4 +1,4 @@
-<?php
+<?php namespace System\Core;
 /**
  * CodeIgniter
  *
@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Controller {
 
 	/**
-	 * Reference to the CI singleton
+	 * Reference to the CodeIgniter singleton
 	 *
 	 * @var	object
 	 */
@@ -69,13 +69,13 @@ class Controller {
 
 		// Assign all the class objects that were instantiated by the
 		// bootstrap file (CodeIgniter.php) to local class variables
-		// so that CI can run as one big super object.
+		// so that CodeIgniter can run as one big super object.
 		foreach (is_loaded() as $var => $class)
 		{
 			$this->$var =& load_class($class);
 		}
 
-		$this->load =& load_class('Loader', 'core');
+		$this->load =& load_class('Loader', 'Core');
 		$this->load->initialize();
 		log_message('info', 'Controller Class Initialized');
 	}
@@ -83,7 +83,7 @@ class Controller {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Get the CI singleton
+	 * Get the CodeIgniter singleton
 	 *
 	 * @static
 	 * @return	object

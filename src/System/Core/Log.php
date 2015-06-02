@@ -1,4 +1,4 @@
-<?php
+<?php namespace System\Core;
 /**
  * CodeIgniter
  *
@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/general/errors.html
  */
-class CI_Log {
+class Log {
 
 	/**
 	 * Path to save log files

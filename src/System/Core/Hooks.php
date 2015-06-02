@@ -1,4 +1,4 @@
-<?php
+<?php namespace System\Core;
 /**
  * CodeIgniter
  *
@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/encryption.html
  */
-class CI_Hooks {
+class Hooks {
 
 	/**
 	 * Determines whether hooks are enabled
@@ -87,7 +87,7 @@ class CI_Hooks {
 	 */
 	public function __construct()
 	{
-		$CFG =& load_class('Config', 'core');
+		$CFG =& load_class('Config', 'Core');
 		log_message('info', 'Hooks Class Initialized');
 
 		// If hooks are not enabled in the config file
@@ -125,7 +125,7 @@ class CI_Hooks {
 	 *
 	 * Calls a particular hook. Called by CodeIgniter.php.
 	 *
-	 * @uses	CI_Hooks::_run_hook()
+	 * @uses	Hooks::_run_hook()
 	 *
 	 * @param	string	$which	Hook name
 	 * @return	bool	TRUE on success or FALSE on failure

@@ -1,4 +1,4 @@
-<?php
+<?php namespace System\Core;
 /**
  * CodeIgniter
  *
@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/exceptions.html
  */
-class CI_Exceptions {
+class Exceptions {
 
 	/**
 	 * Nesting level of the output buffering mechanism
@@ -110,7 +110,7 @@ class CI_Exceptions {
 	/**
 	 * 404 Error Handler
 	 *
-	 * @uses	CI_Exceptions::show_error()
+	 * @uses	Exceptions::show_error()
 	 *
 	 * @param	string	$page		Page URI
 	 * @param 	bool	$log_error	Whether to log the error

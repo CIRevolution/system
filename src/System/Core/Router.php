@@ -1,4 +1,4 @@
-<?php
+<?php namespace System\Core;
 /**
  * CodeIgniter
  *
@@ -48,10 +48,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/general/routing.html
  */
-class CI_Router {
+class Router {
 
 	/**
-	 * CI_Config class object
+	 * Config class object
 	 *
 	 * @var	object
 	 */
@@ -122,8 +122,8 @@ class CI_Router {
 	 */
 	public function __construct($routing = NULL)
 	{
-		$this->config =& load_class('Config', 'core');
-		$this->uri =& load_class('URI', 'core');
+		$this->config =& load_class('Config', 'Core');
+		$this->uri =& load_class('URI', 'Core');
 
 		$this->enable_query_strings = ( ! is_cli() && $this->config->item('enable_query_strings') === TRUE);
 		$this->_set_routing();
@@ -162,7 +162,7 @@ class CI_Router {
 	 */
 	protected function _set_routing()
 	{
-		// Are query strings enabled in the config file? Normally CI doesn't utilize query strings
+		// Are query strings enabled in the config file? Normally CodeIgniter doesn't utilize query strings
 		// since URI segments are more search-engine friendly, but they can optionally be used.
 		// If this feature is enabled, we will gather the directory/class/method a little differently
 		if ($this->enable_query_strings)
@@ -242,7 +242,7 @@ class CI_Router {
 	 * Takes an array of URI segments as input and sets the class/method
 	 * to be called.
 	 *
-	 * @used-by	CI_Router::_parse_routes()
+	 * @used-by	Router::_parse_routes()
 	 * @param	array	$segments	URI segments
 	 * @return	void
 	 */
@@ -326,7 +326,7 @@ class CI_Router {
 	 *
 	 * Attempts validate the URI request and determine the controller path.
 	 *
-	 * @used-by	CI_Router::_set_request()
+	 * @used-by	Router::_set_request()
 	 * @param	array	$segments	URI segments
 	 * @return	mixed	URI segments
 	 */

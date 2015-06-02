@@ -1,4 +1,4 @@
-<?php
+<?php namespace System\Core;
 /**
  * CodeIgniter
  *
@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @var	string
  *
  */
-	define('CI_VERSION', '3.0.0');
+	define('VERSION', '3.0.0');
 
 /*
  * ------------------------------------------------------
@@ -74,7 +74,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  Load the global functions
  * ------------------------------------------------------
  */
-	require_once(BASEPATH.'core/Common.php');
+	require_once(BASEPATH.'Core/Common.php');
 
 
 /*
@@ -142,9 +142,9 @@ if ( ! is_php('5.4'))
  * ------------------------------------------------------
  *
  * Normally the "subclass_prefix" is set in the config file.
- * The subclass prefix allows CI to know if a core class is
+ * The subclass prefix allows CodeIgniter to know if a core class is
  * being extended via a library in the local application
- * "libraries" folder. Since CI allows config items to be
+ * "libraries" folder. Since CodeIgniter allows config items to be
  * overridden via data set in the main index.php file,
  * before proceeding we need to know if a subclass_prefix
  * override exists. If so, we will set this value now,
@@ -185,7 +185,7 @@ if ( ! is_php('5.4'))
  *  Start the timer... tick tock tick tock...
  * ------------------------------------------------------
  */
-	$BM =& load_class('Benchmark', 'core');
+	$BM =& load_class('Benchmark', 'Core');
 	$BM->mark('total_execution_time_start');
 	$BM->mark('loading_time:_base_classes_start');
 
@@ -194,7 +194,7 @@ if ( ! is_php('5.4'))
  *  Instantiate the hooks class
  * ------------------------------------------------------
  */
-	$EXT =& load_class('Hooks', 'core');
+	$EXT =& load_class('Hooks', 'Core');
 
 /*
  * ------------------------------------------------------
@@ -213,7 +213,7 @@ if ( ! is_php('5.4'))
  * depending on another class that uses it.
  *
  */
-	$CFG =& load_class('Config', 'core');
+	$CFG =& load_class('Config', 'Core');
 
 	// Do we have any manually set config items in the index.php file?
 	if (isset($assign_to_config) && is_array($assign_to_config))
@@ -248,7 +248,7 @@ if ( ! is_php('5.4'))
 		// and it's usage triggers E_DEPRECATED messages.
 		@ini_set('mbstring.internal_encoding', $charset);
 		// This is required for mb_convert_encoding() to strip invalid characters.
-		// That's utilized by CI_Utf8, but it's also done for consistency with iconv.
+		// That's utilized by Utf8, but it's also done for consistency with iconv.
 		mb_substitute_character('none');
 	}
 	else
@@ -281,38 +281,38 @@ if ( ! is_php('5.4'))
  * ------------------------------------------------------
  */
 
-	require_once(BASEPATH.'core/compat/mbstring.php');
-	require_once(BASEPATH.'core/compat/hash.php');
-	require_once(BASEPATH.'core/compat/password.php');
-	require_once(BASEPATH.'core/compat/standard.php');
+	require_once(BASEPATH.'Core/Compatibility/MbString.php');
+	require_once(BASEPATH.'Core/Compatibility/Hash.php');
+	require_once(BASEPATH.'Core/Compatibility/Password.php');
+	require_once(BASEPATH.'Core/Compatibility/Standard.php');
 
 /*
  * ------------------------------------------------------
  *  Instantiate the UTF-8 class
  * ------------------------------------------------------
  */
-	$UNI =& load_class('Utf8', 'core');
+	$UNI =& load_class('Utf8', 'Core');
 
 /*
  * ------------------------------------------------------
  *  Instantiate the URI class
  * ------------------------------------------------------
  */
-	$URI =& load_class('URI', 'core');
+	$URI =& load_class('URI', 'Core');
 
 /*
  * ------------------------------------------------------
  *  Instantiate the routing class and set the routing
  * ------------------------------------------------------
  */
-	$RTR =& load_class('Router', 'core', isset($routing) ? $routing : NULL);
+	$RTR =& load_class('Router', 'Core', isset($routing) ? $routing : NULL);
 
 /*
  * ------------------------------------------------------
  *  Instantiate the output class
  * ------------------------------------------------------
  */
-	$OUT =& load_class('Output', 'core');
+	$OUT =& load_class('Output', 'Core');
 
 /*
  * ------------------------------------------------------
@@ -329,21 +329,21 @@ if ( ! is_php('5.4'))
  * Load the security class for xss and csrf support
  * -----------------------------------------------------
  */
-	$SEC =& load_class('Security', 'core');
+	$SEC =& load_class('Security', 'Core');
 
 /*
  * ------------------------------------------------------
  *  Load the Input class and sanitize globals
  * ------------------------------------------------------
  */
-	$IN	=& load_class('Input', 'core');
+	$IN	=& load_class('Input', 'Core');
 
 /*
  * ------------------------------------------------------
  *  Load the Language class
  * ------------------------------------------------------
  */
-	$LANG =& load_class('Lang', 'core');
+	$LANG =& load_class('Lang', 'Core');
 
 /*
  * ------------------------------------------------------
@@ -352,23 +352,23 @@ if ( ! is_php('5.4'))
  *
  */
 	// Load the base controller class
-	require_once BASEPATH.'core/Controller.php';
+	require_once BASEPATH.'Core/Controller.php';
 
 	/**
-	 * Reference to the CI_Controller method.
+	 * Reference to the Controller method.
 	 *
-	 * Returns current CI instance object
+	 * Returns current CodeIgniter instance object
 	 *
 	 * @return object
 	 */
 	function &get_instance()
 	{
-		return CI_Controller::get_instance();
+		return Controller::get_instance();
 	}
 
-	if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php'))
+	if (file_exists(APPPATH.'Core/'.$CFG->config['subclass_prefix'].'Controller.php'))
 	{
-		require_once APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php';
+		require_once APPPATH.'Core/'.$CFG->config['subclass_prefix'].'Controller.php';
 	}
 
 	// Set a mark point for benchmarking
@@ -407,7 +407,7 @@ if ( ! is_php('5.4'))
 	{
 		require_once(APPPATH.'http/controllers/'.$RTR->directory.$class.'.php');
 
-		if ( ! class_exists($class, FALSE) OR $method[0] === '_' OR method_exists('CI_Controller', $method))
+		if ( ! class_exists($class, FALSE) OR $method[0] === '_' OR method_exists('Controller', $method))
 		{
 			$e404 = TRUE;
 		}
@@ -497,7 +497,7 @@ if ( ! is_php('5.4'))
 	// Mark a start point so we can benchmark the controller
 	$BM->mark('controller_execution_time_( '.$class.' / '.$method.' )_start');
 
-	$CI = new $class();
+	$CodeIgniter = new $class();
 
 /*
  * ------------------------------------------------------
@@ -511,7 +511,7 @@ if ( ! is_php('5.4'))
  *  Call the requested method
  * ------------------------------------------------------
  */
-	call_user_func_array(array(&$CI, $method), $params);
+	call_user_func_array(array(&$CodeIgniter, $method), $params);
 
 	// Mark a benchmark end point
 	$BM->mark('controller_execution_time_( '.$class.' / '.$method.' )_end');

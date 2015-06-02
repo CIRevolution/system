@@ -1,4 +1,4 @@
-<?php
+<?php namespace System\Core;
 /**
  * CodeIgniter
  *
@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/uri.html
  */
-class CI_URI {
+class URI {
 
 	/**
 	 * List of cached URI segments
@@ -98,7 +98,7 @@ class CI_URI {
 	 */
 	public function __construct()
 	{
-		$this->config =& load_class('Config', 'core');
+		$this->config =& load_class('Config', 'Core');
 
 		// If query strings are enabled, we don't need to parse any segments.
 		// However, they don't make sense under CLI.
@@ -334,7 +334,7 @@ class CI_URI {
 	/**
 	 * Fetch URI Segment
 	 *
-	 * @see		CI_URI::$segments
+	 * @see		URI::$segments
 	 * @param	int		$n		Index
 	 * @param	mixed		$no_result	What to return if the segment index is not found
 	 * @return	mixed
@@ -351,10 +351,10 @@ class CI_URI {
 	 *
 	 * Returns the re-routed URI segment (assuming routing rules are used)
 	 * based on the index provided. If there is no routing, will return
-	 * the same result as CI_URI::segment().
+	 * the same result as URI::segment().
 	 *
-	 * @see		CI_URI::$rsegments
-	 * @see		CI_URI::segment()
+	 * @see		URI::$rsegments
+	 * @see		URI::segment()
 	 * @param	int		$n		Index
 	 * @param	mixed		$no_result	What to return if the segment index is not found
 	 * @return	mixed
@@ -396,10 +396,10 @@ class CI_URI {
 	/**
 	 * Routed URI to assoc
 	 *
-	 * Identical to CI_URI::uri_to_assoc(), only it uses the re-routed
+	 * Identical to URI::uri_to_assoc(), only it uses the re-routed
 	 * segment array.
 	 *
-	 * @see		CI_URI::uri_to_assoc()
+	 * @see		URI::uri_to_assoc()
 	 * @param 	int	$n		Index (default: 3)
 	 * @param 	array	$default	Default values
 	 * @return 	array
@@ -416,8 +416,8 @@ class CI_URI {
 	 *
 	 * Generates a key/value pair from the URI string or re-routed URI string.
 	 *
-	 * @used-by	CI_URI::uri_to_assoc()
-	 * @used-by	CI_URI::ruri_to_assoc()
+	 * @used-by	URI::uri_to_assoc()
+	 * @used-by	URI::ruri_to_assoc()
 	 * @param	int	$n		Index (default: 3)
 	 * @param	array	$default	Default values
 	 * @param	string	$which		Array name ('segment' or 'rsegment')
@@ -542,8 +542,8 @@ class CI_URI {
 	 *
 	 * Fetches an URI Segment and adds a slash to it.
 	 *
-	 * @used-by	CI_URI::slash_segment()
-	 * @used-by	CI_URI::slash_rsegment()
+	 * @used-by URI::slash_segment()
+	 * @used-by	URI::slash_rsegment()
 	 *
 	 * @param	int	$n	Index
 	 * @param	string	$where	Where to add the slash ('trailing' or 'leading')
@@ -571,7 +571,7 @@ class CI_URI {
 	/**
 	 * Segment Array
 	 *
-	 * @return	array	CI_URI::$segments
+	 * @return	array	URI::$segments
 	 */
 	public function segment_array()
 	{
@@ -583,7 +583,7 @@ class CI_URI {
 	/**
 	 * Routed Segment Array
 	 *
-	 * @return	array	CI_URI::$rsegments
+	 * @return	array	URI::$rsegments
 	 */
 	public function rsegment_array()
 	{
@@ -619,7 +619,7 @@ class CI_URI {
 	/**
 	 * Fetch URI string
 	 *
-	 * @return	string	CI_URI::$uri_string
+	 * @return	string	URI::$uri_string
 	 */
 	public function uri_string()
 	{
@@ -635,7 +635,7 @@ class CI_URI {
 	 */
 	public function ruri_string()
 	{
-		return ltrim(load_class('Router', 'core')->directory, '/').implode('/', $this->rsegments);
+		return ltrim(load_class('Router', 'Core')->directory, '/').implode('/', $this->rsegments);
 	}
 
 }

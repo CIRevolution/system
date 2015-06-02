@@ -1,4 +1,4 @@
-<?php
+<?php namespace System\Core;
 /**
  * CodeIgniter
  *
@@ -67,10 +67,10 @@ class Config {
 	/**
 	 * List of paths to search when trying to load a config file.
 	 *
-	 * @used-by	CI_Loader
+	 * @used-by	Loader
 	 * @var		array
 	 */
-	public $_config_paths =	array(APPPATH);
+	public $_config_paths =	array(ROOTPATH);
 
 	// --------------------------------------------------------------------
 
@@ -226,7 +226,7 @@ class Config {
 	 *
 	 * Returns base_url . index_page [. uri_string]
 	 *
-	 * @uses	CI_Config::_uri_string()
+	 * @uses	Config::_uri_string()
 	 *
 	 * @param	string|string[]	$uri	URI string or an array of segments
 	 * @param	string	$protocol
@@ -281,7 +281,7 @@ class Config {
 	 *
 	 * Returns base_url [. uri_string]
 	 *
-	 * @uses	CI_Config::_uri_string()
+	 * @uses	Config::_uri_string()
 	 *
 	 * @param	string|string[]	$uri	URI string or an array of segments
 	 * @param	string	$protocol
@@ -304,8 +304,8 @@ class Config {
 	/**
 	 * Build URI string
 	 *
-	 * @used-by	CI_Config::site_url()
-	 * @used-by	CI_Config::base_url()
+	 * @used-by	Config::site_url()
+	 * @used-by	Config::base_url()
 	 *
 	 * @param	string|string[]	$uri	URI string or an array of segments
 	 * @return	string
